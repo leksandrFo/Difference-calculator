@@ -1,5 +1,7 @@
 ### Hexlet tests and linter status:
-[![Actions Status](https://github.com/leksandrFo/frontend-project-46/workflows/hexlet-check/badge.svg)](https://github.com/leksandrFo/frontend-project-46/actions)  <a href="https://codeclimate.com/github/leksandrFo/frontend-project-46/maintainability"><img src="https://api.codeclimate.com/v1/badges/9dda29ea2d125f1d8906/maintainability" /></a>  <a href="https://codeclimate.com/github/leksandrFo/frontend-project-46/test_coverage"><img src="https://api.codeclimate.com/v1/badges/9dda29ea2d125f1d8906/test_coverage" /></a>
+[![Actions Status](https://github.com/leksandrFo/frontend-project-46/workflows/hexlet-check/badge.svg)](https://github.com/leksandrFo/frontend-project-46/actions)
+[![Maintainability](https://api.codeclimate.com/v1/badges/9dda29ea2d125f1d8906/maintainability)](https://codeclimate.com/github/leksandrFo/frontend-project-46/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/9dda29ea2d125f1d8906/test_coverage)](https://codeclimate.com/github/leksandrFo/frontend-project-46/test_coverage)
 
 <h2>Project "Difference Calculator"</h2>
 
@@ -23,6 +25,5 @@ make install
 ```
 npm link
 ```
-
 ## Description:
 "Difference Calculator" is a program that determines the difference between two data structures.

@@ -10,4 +10,9 @@ const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', 
 
 test('genDiff', () => {
   expect(genDiff(getFixturePath('file1.json'), getFixturePath('file2.json'))).toBe(expected());
+  expect(genDiff(getFixturePath('file1.json'), getFixturePath('file2.yml'))).toBe(expected());
+});
+
+test('Extension error', () => {
+  expect(() => genDiff(getFixturePath('file1.json'), getFixturePath('expected.js'))).toThrow('The format .js is not supported');
 });

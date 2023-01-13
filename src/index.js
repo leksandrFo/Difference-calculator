@@ -2,11 +2,14 @@ import path from 'path';
 import { readFileSync } from 'fs';
 import process from 'process';
 import _ from 'lodash';
+import getData from './parsers.js';
+
+const getExtension = (filePath) => path.parse(filePath).ext;
 
 const readFile = (filePath) => {
   const fullPath = path.resolve(process.cwd(), filePath);
   const data = readFileSync(fullPath).toString();
-  return JSON.parse(data);
+  return getData(data, getExtension(filePath));
 };
 
 const genDiff = (filePath1, filePath2) => {

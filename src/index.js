@@ -55,11 +55,11 @@ const getTreeWithDifferences = (data1, data2) => {
   return result;
 };
 
-const genDiff = (filePath1, filePath2, format = 'stylish') => {
+const genDiff = (filePath1, filePath2, formatName = 'stylish') => {
   const data1 = readFile(filePath1);
   const data2 = readFile(filePath2);
   const differences = getTreeWithDifferences(data1, data2);
-  return formatSelection(differences, format);
+  return formatSelection(differences, formatName);
 };
 
 export { getExtension, readFile, genDiff };

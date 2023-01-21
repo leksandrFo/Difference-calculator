@@ -8,6 +8,6 @@ export default (data, extension) => {
     case '.yaml':
       return yaml.load(data);
     default:
-      throw new Error(`The format ${extension} is not supported!`);
+      throw new Error(`The extension ${extension} is not supported!`);
   }
 };

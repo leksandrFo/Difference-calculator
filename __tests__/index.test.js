@@ -12,11 +12,13 @@ test('getExtension', () => {
   expect(getExtension(getFixturePath('file1.json'))).toEqual('.json');
 });
 
-test('Extension error', () => {
+test('Errors', () => {
   expect(() => genDiff(getFixturePath('file1.json'), getFixturePath('expected.js'))).toThrow('The format .js is not supported');
+  expect(() => genDiff(getFixturePath('file1.yml'), getFixturePath('file2.yaml'), 'style')).toThrow("Unknown format: 'style'!");
 });
 
 test('genDiff', () => {
-  expect(genDiff(getFixturePath('file1.json'), getFixturePath('file2.json'), 'stylish')).toEqual(expected);
-  expect(genDiff(getFixturePath('file1.json'), getFixturePath('file2.yml'))).toEqual(expected);
+  expect(genDiff(getFixturePath('file1.json'), getFixturePath('file2.json'), 'stylish')).toEqual(expected('stylish'));
+  expect(genDiff(getFixturePath('file1.json'), getFixturePath('file2.yml'))).toEqual(expected());
+  expect(genDiff(getFixturePath('file1.yml'), getFixturePath('file2.yaml'), 'plain')).toEqual(expected('plain'));
 });

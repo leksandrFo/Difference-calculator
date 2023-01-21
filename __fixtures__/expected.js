@@ -55,11 +55,15 @@ Property 'group1.nest' was updated. From [complex value] to 'str'
 Property 'group2' was removed
 Property 'group3' was added with value: [complex value]`;
 
+const jsonExpected = '[{"key":"common","value":[{"key":"follow","value":false,"type":"added"},{"key":"setting1","value":"Value 1","type":"unmodified"},{"key":"setting2","value":200,"type":"removed"},{"key":"setting3","value":[true,null],"type":"modified"},{"key":"setting4","value":"blah blah","type":"added"},{"key":"setting5","value":{"key5":"value5"},"type":"added"},{"key":"setting6","value":[{"key":"doge","value":[{"key":"wow","value":["","so much"],"type":"modified"}],"type":"nested"},{"key":"key","value":"value","type":"unmodified"},{"key":"ops","value":"vops","type":"added"}],"type":"nested"}],"type":"nested"},{"key":"group1","value":[{"key":"baz","value":["bas","bars"],"type":"modified"},{"key":"foo","value":"bar","type":"unmodified"},{"key":"nest","value":[{"key":"value"},"str"],"type":"modified"}],"type":"nested"},{"key":"group2","value":{"abc":12345,"deep":{"id":45}},"type":"removed"},{"key":"group3","value":{"deep":{"id":{"number":45}},"fee":100500},"type":"added"}]';
+
 const expected = (formatName) => {
   if (formatName === 'stylish') {
     return stylishExpected;
   } if (formatName === 'plain') {
     return plainExpected;
+  } if (formatName === 'json') {
+    return jsonExpected;
   }
   return stylishExpected;
 };

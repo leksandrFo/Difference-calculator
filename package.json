@@ -1,7 +1,7 @@
 {
   "name": "@hexlet/code",
   "version": "1.0.0",
-  "description": "[![Actions Status](https://github.com/leksandrFo/frontend-project-46/workflows/hexlet-check/badge.svg)](https://github.com/leksandrFo/frontend-project-46/actions)",
+  "description": "'Difference Calculator' is a program that compares two configuration files and shows a difference.",
   "main": "src/index.js",
   "type": "module",
   "bin": {

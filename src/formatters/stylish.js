@@ -1,31 +1,31 @@
 import _ from 'lodash';
 
-const insertFullIndent = (depth, indent = ' ', indentCount = 4) => _.repeat(indent, indentCount * depth);
-const insertShortIndent = (depth, indent = ' ', indentCount = 4) => _.repeat(indent, (indentCount * depth) - 2);
+const buildFullIndent = (depth, indent = ' ', indentCount = 4) => _.repeat(indent, indentCount * depth);
+const buildShortIndent = (depth, indent = ' ', indentCount = 4) => _.repeat(indent, (indentCount * depth) - 2);
 
 const getString = (data, depth) => {
   if (!_.isPlainObject(data)) {
     return data;
   }
-  const result = Object.entries(data).map(([key, value]) => `${insertFullIndent(depth + 1)}${key}: ${getString(value, depth + 1)}`);
-  return `{\n${result.join('\n')}\n${insertFullIndent(depth)}}`;
+  const result = Object.entries(data).map(([key, value]) => `${buildFullIndent(depth + 1)}${key}: ${getString(value, depth + 1)}`);
+  return `{\n${result.join('\n')}\n${buildFullIndent(depth)}}`;
 };
 
-const insertString = (key, value, depth, symbol = ' ') => `${insertShortIndent(depth)}${symbol} ${key}: ${getString(value, depth)}`;
+const buildString = (key, value, depth, symbol = ' ') => `${buildShortIndent(depth)}${symbol} ${key}: ${getString(value, depth)}`;
 
 export default (tree) => {
   const iter = (node, depth) => node.map(({ key, value, type }) => {
     switch (type) {
       case 'added':
-        return insertString(key, value, depth, '+');
+        return buildString(key, value, depth, '+');
       case 'removed':
-        return insertString(key, value, depth, '-');
+        return buildString(key, value, depth, '-');
       case 'unmodified':
-        return insertString(key, value, depth);
+        return buildString(key, value, depth);
       case 'modified':
-        return `${insertString(key, value[0], depth, '-')}\n${insertString(key, value[1], depth, '+')}`;
+        return `${buildString(key, value[0], depth, '-')}\n${buildString(key, value[1], depth, '+')}`;
       case 'nested':
-        return `${insertFullIndent(depth)}${key}: {\n${iter(value, depth + 1).join('\n')}\n${insertFullIndent(depth)}}`;
+        return `${buildFullIndent(depth)}${key}: {\n${iter(value, depth + 1).join('\n')}\n${buildFullIndent(depth)}}`;
       default:
         throw new Error(`Unknown property type: '${type}'!`);
     }

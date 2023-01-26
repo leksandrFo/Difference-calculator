@@ -4,12 +4,12 @@ import parseData from './parsers.js';
 import format from './formatters/index.js';
 import buildTree from './treeBuilder.js';
 
-const extractExtension = (filepath) => path.parse(filepath).ext;
+const extractFormat = (filepath) => path.parse(filepath).ext;
 
 const readFile = (filepath) => {
   const fullPath = path.resolve(process.cwd(), filepath);
   const data = readFileSync(fullPath, 'utf-8');
-  return parseData(data, extractExtension(filepath));
+  return parseData(data, extractFormat(filepath));
 };
 
 export default (filepath1, filepath2, formatName = 'stylish') => {

@@ -1,13 +1,13 @@
 import yaml from 'js-yaml';
 
-export default (data, extension) => {
-  switch (extension) {
+export default (data, format) => {
+  switch (format) {
     case '.json':
       return JSON.parse(data);
     case '.yml':
     case '.yaml':
       return yaml.load(data);
     default:
-      throw new Error(`The extension ${extension} is not supported!`);
+      throw new Error(`The format ${format} is not supported!`);
   }
 };

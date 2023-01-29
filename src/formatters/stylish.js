@@ -1,33 +1,38 @@
 import _ from 'lodash';
 
-const buildFullIndent = (depth, indent = ' ', indentCount = 4) => _.repeat(indent, indentCount * depth);
-const buildShortIndent = (depth, indent = ' ', indentCount = 4) => _.repeat(indent, (indentCount * depth) - 2);
+const space = ' ';
+const spaceCount = 4;
 
-const getString = (data, depth) => {
-  if (!_.isPlainObject(data)) {
-    return data;
-  }
-  const result = Object.entries(data).map(([key, value]) => `${buildFullIndent(depth + 1)}${key}: ${getString(value, depth + 1)}`);
-  return `{\n${result.join('\n')}\n${buildFullIndent(depth)}}`;
+const indent = (depth, isFull = true) => {
+  const IndentSize = spaceCount * depth;
+  return isFull ? _.repeat(space, IndentSize) : _.repeat(space, IndentSize - 2);
 };
 
-const buildString = (key, value, depth, symbol = ' ') => `${buildShortIndent(depth)}${symbol} ${key}: ${getString(value, depth)}`;
+const stringify = (data, depth) => {
+  if (!_.isPlainObject(data)) {
+    return String(data);
+  }
+  const result = Object.entries(data).map(([key, value]) => `${indent(depth + 1)}${key}: ${stringify(value, depth + 1)}`);
+  return `{\n${result.join('\n')}\n${indent(depth)}}`;
+};
+
+const buildString = (key, value, depth, symbol = ' ') => `${indent(depth, false)}${symbol} ${key}: ${stringify(value, depth)}`;
 
 export default (tree) => {
-  const iter = (node, depth) => node.map(({ key, value, type }) => {
-    switch (type) {
+  const iter = (node, depth) => node.map((item) => {
+    switch (item.type) {
       case 'added':
-        return buildString(key, value, depth, '+');
+        return buildString(item.key, item.value, depth, '+');
       case 'removed':
-        return buildString(key, value, depth, '-');
+        return buildString(item.key, item.value, depth, '-');
       case 'unmodified':
-        return buildString(key, value, depth);
+        return buildString(item.key, item.value, depth);
       case 'modified':
-        return `${buildString(key, value[0], depth, '-')}\n${buildString(key, value[1], depth, '+')}`;
+        return `${buildString(item.key, item.oldValue, depth, '-')}\n${buildString(item.key, item.newValue, depth, '+')}`;
       case 'nested':
-        return `${buildFullIndent(depth)}${key}: {\n${iter(value, depth + 1).join('\n')}\n${buildFullIndent(depth)}}`;
+        return `${indent(depth)}${item.key}: {\n${iter(item.children, depth + 1).join('\n')}\n${indent(depth)}}`;
       default:
-        throw new Error(`Unknown property type: '${type}'!`);
+        throw new Error(`Unknown property type: '${item.type}'!`);
     }
   });
   const result = iter(tree, 1);

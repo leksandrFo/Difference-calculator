@@ -14,13 +14,16 @@ describe('testing genDiff function', () => {
   test.each(formats)('testing %p format', (format) => {
     const filepath1 = getFixturePath(`file1${format}`);
     const filepath2 = getFixturePath(`file2${format}`);
-    expect(genDiff(filepath1, filepath2)).toEqual(readFixture('stylishExpected.txt'));
-    expect(genDiff(filepath1, filepath2, 'stylish')).toEqual(readFixture('stylishExpected.txt'));
-    expect(genDiff(filepath1, filepath2, 'plain')).toEqual(readFixture('plainExpected.txt'));
-    expect(genDiff(filepath1, filepath2, 'json')).toEqual(readFixture('jsonExpected.txt'));
+    const stylishExpected = readFixture('stylishResult.txt');
+    const plainExpected = readFixture('plainResult.txt');
+    const jsonExpected = readFixture('jsonResult.txt');
+    expect(genDiff(filepath1, filepath2)).toEqual(stylishExpected);
+    expect(genDiff(filepath1, filepath2, 'stylish')).toEqual(stylishExpected);
+    expect(genDiff(filepath1, filepath2, 'plain')).toEqual(plainExpected);
+    expect(genDiff(filepath1, filepath2, 'json')).toEqual(jsonExpected);
   });
   test('parsers error', () => {
-    expect(() => genDiff(getFixturePath('file1.json'), getFixturePath('stylishExpected.txt'))).toThrow('The format .txt is not supported');
+    expect(() => genDiff(getFixturePath('file1.json'), getFixturePath('stylishResult.txt'))).toThrow('The format .txt is not supported');
   });
   test('formatter name error', () => {
     expect(() => genDiff(getFixturePath('file1.json'), getFixturePath('file2.json'), 'style')).toThrow("Unknown format: 'style'!");

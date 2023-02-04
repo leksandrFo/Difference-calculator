@@ -9,24 +9,26 @@ const stringify = (value) => {
   return String(value);
 };
 
-export default (data) => {
-  const iter = (tree, keys) => tree
-    .filter((node) => node.type !== 'unmodified')
-    .map((node) => {
-      const currentKey = keys ? `${keys}.${node.key}` : `${node.key}`;
-      switch (node.type) {
-        case 'added':
-          return `Property '${currentKey}' was added with value: ${stringify(node.value)}`;
-        case 'removed':
-          return `Property '${currentKey}' was removed`;
-        case 'modified':
-          return `Property '${currentKey}' was updated. From ${stringify(node.oldValue)} to ${stringify(node.newValue)}`;
-        case 'nested':
-          return iter(node.children, currentKey).join('\n');
-        default:
-          throw new Error(`Unknown property type: '${node.type}'!`);
-      }
-    });
-  const result = iter(data, '');
+const buildPropertyName = (node, path) => (path ? `${path}.${node.key}` : `${node.key}`);
+
+const iter = (tree, path) => tree
+  .filter((node) => node.type !== 'unmodified')
+  .map((node) => {
+    switch (node.type) {
+      case 'added':
+        return `Property '${buildPropertyName(node, path)}' was added with value: ${stringify(node.value)}`;
+      case 'removed':
+        return `Property '${buildPropertyName(node, path)}' was removed`;
+      case 'modified':
+        return `Property '${buildPropertyName(node, path)}' was updated. From ${stringify(node.value1)} to ${stringify(node.value2)}`;
+      case 'nested':
+        return iter(node.children, buildPropertyName(node, path)).join('\n');
+      default:
+        throw new Error(`Unknown property type: '${node.type}'!`);
+    }
+  });
+
+export default (tree) => {
+  const result = iter(tree, '');
   return `${result.join('\n')}`;
 };

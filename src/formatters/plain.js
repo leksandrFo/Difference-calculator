@@ -3,7 +3,8 @@ import _ from 'lodash';
 const stringify = (value) => {
   if (_.isPlainObject(value)) {
     return '[complex value]';
-  } if (_.isString(value)) {
+  }
+  if (_.isString(value)) {
     return `'${value}'`;
   }
   return String(value);
@@ -12,7 +13,7 @@ const stringify = (value) => {
 const buildPropertyName = (node, path) => (path ? `${path}.${node.key}` : `${node.key}`);
 
 const iter = (tree, path) => tree
-  .filter((node) => node.type !== 'unmodified')
+  .filter(({ type }) => type !== 'unmodified')
   .map((node) => {
     switch (node.type) {
       case 'added':

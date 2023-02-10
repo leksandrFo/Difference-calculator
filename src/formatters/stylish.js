@@ -19,8 +19,6 @@ const stringify = (data, depth) => {
 const buildString = (key, value, depth, symbol = ' ') => `${indent(depth, false)}${symbol} ${key}: ${stringify(value, depth)}`;
 
 const iter = (node, depth) => node.map((item) => {
-  const output1 = buildString(item.key, item.value1, depth, '-');
-  const output2 = buildString(item.key, item.value2, depth, '+');
   switch (item.type) {
     case 'added':
       return buildString(item.key, item.value, depth, '+');
@@ -29,7 +27,11 @@ const iter = (node, depth) => node.map((item) => {
     case 'unmodified':
       return buildString(item.key, item.value, depth);
     case 'modified':
+    {
+      const output1 = buildString(item.key, item.value1, depth, '-');
+      const output2 = buildString(item.key, item.value2, depth, '+');
       return `${output1}\n${output2}`;
+    }
     case 'nested':
       return `${indent(depth)}${item.key}: {\n${iter(item.children, depth + 1).join('\n')}\n${indent(depth)}}`;
     default:

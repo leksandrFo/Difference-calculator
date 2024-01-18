@@ -14,7 +14,7 @@
 ## Installation:
 1. Create clone of the repository.
 ```
-git clone git@github.com:leksandrFo/frontend-project-46.git
+git clone git@github.com:leksandrFo/Difference-calculator.git
 ```
 2. Navigate to the repository you just cloned.
 ```
